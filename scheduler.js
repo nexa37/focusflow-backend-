@@ -49,4 +49,6 @@ export function startReminderScheduler(db) {
   }
 
   tick();
-  const interval = setInterval(
+  const interval = setInterval(tick, 60 * 1000);
+  return () => clearInterval(interval);
+}
