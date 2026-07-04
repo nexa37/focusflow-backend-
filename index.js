@@ -85,6 +85,11 @@ app.post("/api/push/test", async (req, res) => {
   res.json(result);
 });
 
+app.get("/api/push/debug", (req, res) => {
+  const subs = db.prepare("SELECT id, endpoint, created_at FROM push_subscriptions").all();
+  res.json({ count: subs.length, subscriptions: subs });
+});
+
 app.get("/api/health", (req, res) => res.json({ ok: true }));
 
 const PORT = process.env.PORT || 3001;
@@ -92,3 +97,4 @@ app.listen(PORT, () => {
   console.log(`FocusFlow server running on port ${PORT}`);
   startReminderScheduler(db);
 });
+p
