@@ -46,6 +46,8 @@ CREATE TABLE IF NOT EXISTS reminders (
   priority TEXT DEFAULT 'Medium',
   notes TEXT DEFAULT '',
   notified INTEGER DEFAULT 0,
+  notify_count INTEGER DEFAULT 0,
+  last_notified_at TEXT,
   created_at TEXT DEFAULT (datetime('now'))
 );
 
@@ -75,5 +77,13 @@ CREATE TABLE IF NOT EXISTS push_subscriptions (
   created_at TEXT DEFAULT (datetime('now'))
 );
 `);
+
+const reminderColumns = db.prepare("PRAGMA table_info(reminders)").all().map((c) => c.name);
+if (!reminderColumns.includes("notify_count")) {
+  db.exec("ALTER TABLE reminders ADD COLUMN notify_count INTEGER DEFAULT 0");
+}
+if (!reminderColumns.includes("last_notified_at")) {
+  db.exec("ALTER TABLE reminders ADD COLUMN last_notified_at TEXT");
+}
 
 export default db;
