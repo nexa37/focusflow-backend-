@@ -11,8 +11,8 @@ export function startReminderScheduler(db) {
   async function tick() {
     try {
       const now = new Date();
-      const todayStr = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
-      const timeStr = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+      const todayStr = `${now.getUTCFullYear()}-${pad(now.getUTCMonth() + 1)}-${pad(now.getUTCDate())}`;
+      const timeStr = `${pad(now.getUTCHours())}:${pad(now.getUTCMinutes())}`;
 
       const due = db
         .prepare(
